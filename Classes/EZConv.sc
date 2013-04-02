@@ -43,6 +43,18 @@ EZConv {
         }
     }
 
+    prepareNRT {|renderPath="/tmp", headerFormat="wav", sampleFormat="int24"|
+        var name = PathName(path).fileNameWithoutExtension;
+        irSpectrum.do{|buf, i|
+            var p = renderPath +/+ name ++ "_NRT_" ++ i ++ "." ++ headerFormat;
+            buf.write(p, headerFormat, sampleFormat,
+                completionMessage: {|b|
+                    "Wrote buffer: % to disk as: %".format(b, p).postln;
+                }
+            );
+        };
+    }
+
     /*
     * pseudo *ar (instance) method, to be used with SynthDefs
     */
